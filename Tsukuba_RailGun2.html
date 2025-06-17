@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>千葉工業新聞 - 最新ニュースをお届け</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&family=Zen+Old+Mincho:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Old Mincho', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ヘッダー */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* トップバー */
+        .top-bar {
+            background-color: #1a252f;
+            color: white;
+            padding: 0.5rem 0;
+            font-size: 0.8rem;
+        }
+
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 25px;
+            padding: 0.3rem;
+            min-width: 250px;
+            max-width: 400px;
+            flex: 1;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            flex: 1;
+            font-size: 0.9rem;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .search-button {
+            background: #e67e22;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 0.2rem;
+        }
+
+        .search-button:hover {
+            background: #d35400;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .auth-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .login-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid #bdc3c7;
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #1a252f;
+        }
+
+        .signup-btn {
+            background: #e67e22;
+            color: white;
+        }
+
+        .signup-btn:hover {
+            background: #d35400;
+            transform: translateY(-1px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-family: 'Zen Kurenaido', serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            background: linear-gradient(45deg, #ffffff 0%, #f39c12 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.1em;
+            position: relative;
+        }
+
+        .logo h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #f39c12 50%, transparent 100%);
+        }
+
+        .current-time {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        /* モバイルメニュー */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* ナビゲーション */
+        nav {
+            background: linear-gradient(135deg, #f4f4f4 0%, #ffffff 100%);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid #e67e22;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-family: 'Zen Old Mincho', serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(230, 126, 34, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a:hover {
+            background-color: #e67e22;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 126, 34, 0.3);
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        /* トップニュース */
+        .top-news {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+            border: 1px solid #e67e22;
+            cursor: pointer; /* カーソルをポインターにする */
+        }
+
+        .top-news:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.2);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #34495e 0%, #2c3e50 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .news-content {
+            padding: 2rem;
+        }
+
+        .news-category {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-family: 'Zen Old Mincho', serif;
+            font-weight: 600;
+        }
+
+        .news-title {
+            font-family: 'Zen Kurenaido', serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+
+        .news-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .news-excerpt {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        /* ニュース一覧 */
+        .news-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .news-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid #e67e22;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer; /* カーソルをポインターにする */
+        }
+
+        .news-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 0%, rgba(230, 126, 34, 0.03) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .news-item:hover::before {
+            opacity: 1;
+        }
+
+        .news-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 25px rgba(230, 126, 34, 0.2);
+        }
+
+        .news-item h3 {
+            font-family: 'Zen Kurenaido', serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .news-item p {
+            color: #666;
+            font-size: 0.95rem;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .news-item .meta {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .widget {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e67e22;
+        }
+
+        .widget h3 {
+            font-family: 'Zen Kurenaido', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+        }
+
+        .trending-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .trending-item:hover {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding-left: 0.5rem;
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-item h4 {
+            font-family: 'Zen Kurenaido', serif;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: #333;
+        }
+
+        .trending-item span {
+            color: #999;
+            font-size: 0.8rem;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        /* クリック可能なリンクスタイル */
+        .clickable-news {
+            color: #2c3e50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .clickable-news:hover {
+            color: #e67e22;
+        }
+
+        /* 天気ウィジェット */
+        .weather-widget {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            padding-bottom: 0.5rem; /* For weather forecast */
+        }
+
+        .weather-widget h3 {
+            border-bottom-color: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .weather-info {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .temperature {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-family: 'Zen Kurenaido', serif;
+        }
+
+        .weather-desc {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .weather-forecast {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            text-align: left;
+        }
+
+        .weather-forecast h4 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: white;
+            text-align: center;
+        }
+
+        .forecast-day {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+
+        .forecast-day:last-child {
+            border-bottom: none;
+        }
+
+        .forecast-day .day {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .forecast-day .temp {
+            flex: 1;
+            text-align: right;
+        }
+
+        /* フッター */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-family: 'Zen Kurenaido', serif;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #e67e22;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            padding: 0.3rem 0;
+        }
+
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .footer-section ul li a:hover {
+            color: #e67e22;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 1rem;
+            text-align: center;
+            color: #95a5a6;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        /* ニュース詳細ページ */
+        .news-detail {
+            display: none; /* 初期状態では非表示 */
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .news-detail.active {
+            display: block; /* アクティブなときに表示 */
+        }
+
+        .news-detail-header {
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .news-detail-title {
+            font-family: 'Zen Kurenaido', serif;
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .news-detail-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .news-detail-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        .news-detail-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .back-button {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Zen Old Mincho', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .top-bar-content {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-container {
+                min-width: 100%;
+                order: 2;
+            }
+
+            .auth-buttons {
+                order: 1;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .header-content {
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .logo h1 {
+                font-size: 2rem;
+            }
+
+            .current-time {
+                font-size: 0.8rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .nav-links {
+                flex-direction: column;
+                background: linear-gradient(135deg, #f4f4f4 0%, #ffffff 100%);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                padding: 1rem;
+                gap: 0;
+                z-index: 1000;
+                display: none;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+            }
+
+            .nav-links li:last-child {
+                border-bottom: none;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem;
+                border-radius: 0;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-title {
+                font-size: 1.3rem;
+            }
+
+            .news-content {
+                padding: 1.5rem;
+            }
+
+            .sidebar {
+                order: -1;
+                margin-bottom: 2rem;
+            }
+
+            .widget {
+                margin-bottom: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+
+            .news-title {
+                font-size: 1.2rem;
+            }
+
+            .news-content {
+                padding: 1rem;
+            }
+
+            .auth-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            .search-input {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .temperature {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* アニメーション */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes brushStroke {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 80%;
+            }
+        }
+
+        .top-news, .news-item, .widget {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .logo h1::after {
+            animation: brushStroke 2s ease-in-out infinite alternate;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="auth-buttons">
+                    <a href="#login" class="auth-button login-btn">ログイン</a>
+                    <a href="#signup" class="auth-button signup-btn">会員登録</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="ニュースを検索..." id="searchInput">
+                    <button class="search-button" onclick="performSearch()">🔍</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>千葉工業新聞</h1>
+                </div>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+                <div class="current-time" id="current-time">
+                    </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="showMainPage()">ホーム</a></li>
+                <li><a href="#industry">工業</a></li>
+                <li><a href="#technology">テクノロジー</a></li>
+                <li><a href="#research">研究開発</a></li>
+                <li><a href="#education">教育</a></li>
+                <li><a href="#local">地域情報</a></li>
+                <li><a href="#business">ビジネス</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="main-content">
+            <main id="mainPage">
+                <article class="top-news" onclick="showNewsDetail('tsukubaNews')">
+                    <style>
+                        img {
+                            width: 400%; /* 親要素の幅に合わせて最大幅を設定 */
+                            height: auto;    /* 縦横比を維持 */
+                            border: 2px solid #333; /* 枠線 */
+                            border-radius: 8px; /* 角を丸くする */
+                            display: block; /* ブロック要素にして中央揃えしやすくする */
+                            margin: 20px auto; /* 上下に20pxのマージン、左右は自動で中央揃え */
+                        }
+                    </style>
+                    
+                    <div class="news-image">
+                        <img src="Mt_Tsukuba.jpg" alt="筑波山">
+
+                    </div>
+                    <div class="news-content">
+                        <span class="news-category">速報</span>
+                        <h2 class="news-title">【茨城・筑波】筑波山麓に超電磁技術研究施設が着工——2087年春完成へ</h2>
+                        <div class="news-meta">
+                            📅 2081年7月13日 10:30 | 👤 科学技術記者 | 💬 127件のコメント
+                        </div>
+                        <p class="news-excerpt">
+                            茨城県は17日、筑波山麓における最先端科学研究施設の建設に着手したと正式に発表した。
+                            施設は某A省の所管で整備が進められ、2087年春の完成を目指しておよそ5年をかけて建設される予定。
+                            この新拠点は、すでに一部分野で実用化が進んでいる超電磁砲（レールガン）技術のさらなる効率化・小型化・量産化を主たる目的とした研究施設である...
+                        </p>
+                    </div>
+                </article>
+
+                <section class="news-list">
+                    <article class="news-item clickable-news" onclick="alert('三塚総理のニュースがクリックされました。')">
+                        <h3>🏛️ 三塚総理、行政改革の一環として某A省の機能強化を提言</h3>
+                        <p>三塚総理大臣は記者会見において、行政効率化を目的とした省庁再編の必要性を強調し、特定省庁の機能拡充について言及しました。</p>
+                        <div class="meta">2時間前 | 政治部</div>
+                    </article>
+
+                    <article class="news-item clickable-news" onclick="alert('魔法少女 マギのニュースがクリックされました。')">
+                        <h3>🌟 『魔法少女 マギ』、全国劇場で上映開始——ファン待望の新作アニメ映画</h3>
+                        <p>人気アニメシリーズの最新劇場版が全国で上映を開始し、各地の映画館では長蛇の列が形成されています。</p>
+                        <div class="meta">4時間前 | エンターテイメント部</div>
+                    </article>
+
+                    <article class="news-item clickable-news" onclick="alert('伊藤穣一氏のニュースがクリックされました。')">
+                        <h3>🍵 伊藤穣一氏、千葉工業大学に茶室の設置を正式要望——テクノロジーと和の融合を模索</h3>
+                        <p>著名な研究者である伊藤穣一氏が千葉工業大学に対し、キャンパス内への茶室設置を提案し、注目を集めています。</p>
+                        <div class="meta">6時間前 | 教育部</div>
+                    </article>
+
+                    <article class="news-item clickable-news" onclick="alert('人材育成プログラムのニュースがクリックされました。')">
+                        <h3>🎓 地域産業人材育成プログラム、新規受講者募集開始</h3>
+                        <p>千葉県と地域企業が連携した技術者育成プログラムが今年度も開催され、受講者を募集しています。</p>
+                        <div class="meta">8時間前 | 教育部</div>
+                    </article>
+
+                    <article class="news-item clickable-news" onclick="alert('ベンチャー企業のニュースがクリックされました。')">
+                        <h3>🚀 千葉県発ベンチャー企業、宇宙産業分野に参入</h3>
+                        <p>県内の技術系ベンチャー企業が宇宙関連事業に参入し、人工衛星部品の製造を開始しました。</p>
+                        <div class="meta">10時間前 | ベンチャー部</div>
+                    </article>
+                </section>
+            </main>
+
+            <article class="news-detail" id="tsukubaNews">
+                <button class="back-button" onclick="showMainPage()">← メインページに戻る</button>
+                <div class="news-detail-header">
+                    <h1 class="news-detail-title">【茨城・筑波】筑波山麓に超電磁技術研究施設が着工——2087年春完成へ</h1>
+                    <div class="news-detail-meta">
+                        📅 2081年7月13日 10:30 | 👤 科学技術記者 木地主材 | 📍 筑波山
+                    </div>
+                </div>
+                <div class="news-detail-content">
+                    <p>茨城県は17日、筑波山麓における最先端科学研究施設の建設に着手したと正式に発表した。施設は某A省の所管で整備が進められ、2087年春の完成を目指しておよそ5年をかけて建設される予定。この新拠点は、すでに一部分野で実用化が進んでいる超電磁砲（レールガン）技術のさらなる効率化・小型化・量産化を主たる目的とした研究施設である。</p>
+                    
+                    <p>研究内容は、電磁加速におけるエネルギーロスの最小化、高耐久かつ軽量な素材の開発、連続発射時の熱制御および電力安定供給技術など多岐にわたる。また、新たな試みとして「可搬型超電磁加速ユニット」の開発も計画されており、これが実現すれば、軌道資源輸送・災害時インフラ支援・次世代物流といった民間応用にも道が開かれると期待されている。</p>
+                    
+                    <p>このプロジェクトには東芝、日立、A-Star's、三菱重工などの国内有力企業が資金および技術の両面で協力を表明しており、すでに設立された運営協議会には筑波大学・千葉工業大学・東北大学など複数の学術機関も参加している。産学官の連携による研究体制の確立を目指し、博士課程の学生受け入れや設備の共同利用も視野に入れた運営方針が策定されつつある。</p>
+                    
+                    <p>某A省関係者は「この施設は、単なる軍事研究ではなく、超電磁技術を社会基盤へと応用する未来志向のプラットフォームとなる」とコメント。次世代の標準技術を創出する中核拠点としての期待も高まっている。</p>
+                    
+                    <p>一方、筑波山周辺では、建設に伴う人口流入や自然環境への影響を懸念する声も上がっており、茨城県は地下施設の導入、遮音・遮光構造の強化、景観に配慮した設計などを通じて地域との共生を図る構えだ。施設完成後は、筑波山全体を中心とした次世代電磁技術クラスターとしての発展が見込まれており、今後の展開に注目が集まっている。</p>
+                </div>
+            </article>
+
+            <aside class="sidebar">
+                <div class="widget weather-widget">
+                    <h3>今日の天気 (習志野市)</h3>
+                    <div class="weather-info">
+                        <div class="temperature" id="weather-temperature">21℃</div>
+                        <div class="weather-desc" id="weather-description">大気循環システム：正常</div>
+                    </div>
+                    <div class="weather-forecast">
+                        <h4>今後1週間の天気</h4>
+                        <div class="forecast-day">
+                            <span class="day">明日 (月)</span><span class="temp">25℃ / 18℃ ☀️</span>
+                        </div>
+                        <div class="forecast-day">
+                            <span class="day">火曜日</span><span class="temp">26℃ / 19℃ ☁️</span>
+                        </div>
+                        <div class="forecast-day">
+                            <span class="day">水曜日</span><span class="temp">27℃ / 20℃ ☔</span>
+                        </div>
+                        <div class="forecast-day">
+                            <span class="day">木曜日</span><span class="temp">24℃ / 19℃ ☁️</span>
+                        </div>
+                        <div class="forecast-day">
+                            <span class="day">金曜日</span><span class="temp">28℃ / 21℃ ⛄</span>
+                        </div>
+                        <div class="forecast-day">
+                            <span class="day">土曜日</span><span class="temp">27℃ / 20℃ ☀️</span>
+                        </div>
+                        <div class="forecast-day">
+                            <span class="day">日曜日</span><span class="temp">26℃ / 19℃ ☁️</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <h3>人気記事</h3>
+                    <div class="trending-list">
+                        <div class="trending-item clickable-news" onclick="alert('人気記事1がクリックされました。')">
+                            <h4>千葉モノレール、惜しまれつつ廃止へ</h4>
+                            <span>地域情報 | 5日前</span>
+                        </div>
+                        <div class="trending-item clickable-news" onclick="alert('人気記事2がクリックされました。')">
+                            <h4>日本の茶葉、海へ投棄される</h4>
+                            <span>世界情勢 | 1週間前</span>
+                        </div>
+                        <div class="trending-item clickable-news" onclick="alert('人気記事3がクリックされました。')">
+                            <h4> IiPv2規格、2085年策定へ</h4>
+                            <span>テクノロジー | 2日前</span>
+                        </div>
+                        <div class="trending-item clickable-news" onclick="alert('人気記事4がクリックされました。')">
+                            <h4>千葉中央新幹線、ついに部分開業</h4>
+                            <span>交通 | 3日前</span>
+                        </div>
+                        <div class="trending-item clickable-news" onclick="alert('人気記事5がクリックされました。')">
+                            <h4>大気循環システム、異常発生か</h4>
+                            <span>テクノロジー | 1日前</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>サイトマップ</h4>
+                    <ul>
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#industry">工業</a></li>
+                        <li><a href="#technology">テクノロジー</a></li>
+                        <li><a href="#research">研究開発</a></li>
+                        <li><a href="#education">教育</a></li>
+                        <li><a href="#local">地域情報</a></li>
+                        <li><a href="#business">ビジネス</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>会社情報</h4>
+                    <ul>
+                        <li><a href="#about">千葉工業新聞について</a></li>
+                        <li><a href="#contact">お問い合わせ</a></li>
+                        <li><a href="#privacy">プライバシーポリシー</a></li>
+                        <li><a href="#terms">利用規約</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>SNS</h4>
+                    <ul>
+                        <li><a href="#twitter">X (旧Twitter)</a></li>
+                        <li><a href="#facebook">Facebook</a></li>
+                        <li><a href="#linkedin">LinkedIn</a></li>
+                        <li><a href="#youtube">YouTube</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>購読</h4>
+                    <p style="color: #bdc3c7; font-size: 0.9rem; font-family: 'Zen Old Mincho', serif;">最新ニュースをメールでお届けします。</p>
+                    <input type="email" placeholder="メールアドレス" style="width: 100%; padding: 0.5rem; border-radius: 5px; border: none; margin-top: 0.5rem;">
+                    <button style="background: #e67e22; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; margin-top: 0.5rem; cursor: pointer;">登録</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2081 千葉工業新聞. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function updateCurrentTime() {
+            const fixedDate = new Date('2081-07-13T16:23:00'); 
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('current-time').textContent = fixedDate.toLocaleDateString('ja-JP', options);
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCurrentTime);
+
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('show');
+        }
+
+        function showNewsDetail(newsId) {
+            document.getElementById('mainPage').style.display = 'none';
+            const newsDetail = document.getElementById(newsId);
+            if (newsDetail) {
+                newsDetail.classList.add('active');
+            }
+        }
+
+        function showMainPage() {
+            document.getElementById('mainPage').style.display = 'grid'; // main-contentのgrid設定に合わせる
+            const activeNewsDetail = document.querySelector('.news-detail.active');
+            if (activeNewsDetail) {
+                activeNewsDetail.classList.remove('active');
+            }
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value;
+                    }
+    </script>
+</body>
+</html>
