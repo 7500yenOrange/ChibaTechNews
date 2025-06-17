@@ -1,3 +1,11 @@
-p {
-    font-family: "メイリオ", Meiryo, Arial, sans-serif;
+@media (max-width: 768px) {
+    /* ... 既存のスタイル ... */
+    .sidebar {
+        order: 1; /* サイドバーの表示順をトップニュースの後ろにする */
+        margin-bottom: 2rem;
+    }
+    .top-news { /* トップニュースを最初に表示 */
+        order: 0;
+    }
+    /* ... その他のスタイル ... */
 }
