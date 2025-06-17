@@ -672,7 +672,7 @@
             .nav-links li:last-child {
                 border-bottom: none;
             }
-
+            
             .nav-links a {
                 display: block;
                 padding: 1rem;
@@ -682,7 +682,7 @@
             .main-content {
                 grid-template-columns: 1fr;
             }
-            
+
             .news-title {
                 font-size: 1.3rem;
             }
@@ -691,20 +691,24 @@
                 padding: 1.5rem;
             }
 
-            .sidebar {
-                order: -1;
-                margin-bottom: 2rem;
+            /* 以下2行を修正・追加 */
+            main#mainPage { /* メインコンテンツ（速報を含む）を最初に表示 */
+                order: 0;
             }
+            .sidebar {
+                order: 1; /* サイドバーをメインコンテンツの次に表示 */
+                margin-bottom: 2rem;
+            }
 
-            .widget {
-                margin-bottom: 1rem;
-            }
+            .widget {
+                margin-bottom: 1rem;
+            }
 
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
 
         @media (max-width: 480px) {
             .container {
