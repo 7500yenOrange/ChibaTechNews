@@ -7,5 +7,16 @@
     .top-news { /* トップニュースを最初に表示 */
         order: 0;
     }
-    /* ... その他のスタイル ... */
+    .logo-image {
+    max-height: 60px; /* ロゴの画像の最大の高さを設定（例として60px） */
+    width: auto;     /* 幅は自動調整 */
+    display: block;  /* ブロック要素にして中央揃えしやすくする */
+    }
+    /* 必要に応じてロゴ画像の配置やサイズを調整するための追加のスタイル */
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* 必要に応じて中央揃え */
+        height: 100%; /* 親要素に合わせて高さを設定 */
+    }
 }
